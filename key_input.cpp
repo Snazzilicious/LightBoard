@@ -9,23 +9,23 @@
 using namespace std;
 
 void Command::add(__u16 newElem){
-	raw.resize(raw.size()+1, newElem);
-	converted.resize(converted.size()+1, convert(newElem));
+	raw.push_back( newElem );
+	converted.push_back( convert(newElem) );
 }
 
 
 void Command::backspace(void) {
 	if (raw.size()>=1){
-		raw.resize(raw.size()-1);
+		raw.pop_back();
 	}
 	if(converted.size()>=1){
-		converted.resize(converted.size()-1);
+		converted.pop_back();
 	}
 }
 
 void Command::clear(void) {
-	raw.resize(0);
-	converted.resize(0);
+	raw.clear();
+	converted.clear();
 }
 
 char Command::convert(__u16 input){
@@ -266,7 +266,7 @@ int get_int(vector<char> cStr, int start, int &stop, int size){
 	for (i=start; i<size; i++){
 		if (isdigit(cStr[i])){
 			temp = (int) cStr[i];
-			digits.resize(digits.size()+1, temp-48);
+			digits.push_back( temp-48 );
 		}
 		else {
 			
