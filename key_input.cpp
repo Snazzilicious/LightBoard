@@ -2,7 +2,6 @@
 #include "key_input.h"
 
 #include <ctype.h>
-#include <cmath>
 
 #include <iostream>
 
