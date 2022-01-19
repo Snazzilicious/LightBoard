@@ -280,10 +280,11 @@ int get_int(vector<char> cStr, int start, int &stop, int size){
 	
 	//adds up the digits after shifting
 	//them by the proper power of ten
-	for (i=0; i<temp; i++){
+	int mult = 1;
+	for (i=temp-1; i>=0; i--){
 		
-		sum += digits[i]*pow(10, temp-i-1);
-		
+		sum += digits[i]*mult;
+		mult *= 10;
 	}
 	
 	return sum;
