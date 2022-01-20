@@ -101,14 +101,14 @@ int main() {
 	//list of the valus of the channels
 	//as unsigned chars/ubytes
 	//unsigned char chanVals[24] ={0};
-	int chanPercents[MaxChannels] = {0};
+	int chanPercents[MAX_CHANNELS] = {0};
 	clearChannels(chanPercents);
 	
 	//list of all the cues
 	vector<Group> cues;
 	
 	//sum of cue output and and channel output
-	int currentSum[MaxChannels] = {0};
+	int currentSum[MAX_CHANNELS] = {0};
 	clearChannels(currentSum);
 	
 	Command Input;
@@ -125,7 +125,7 @@ int main() {
 	
 	
 	
-	init_dmx(MaxChannels);
+	init_dmx(MAX_CHANNELS);
 	eos = initialize_screen(numOfAxis);
 	dummy = load_cuelist(cues);
 	//cout <<1<<endl;
@@ -266,7 +266,7 @@ int main() {
 				cues.resize(cues.size()+1);
 				temp = cues.size()-1;
 				cues[temp].name = dummy;
-				for (int d=0; d<MaxChannels; d++){
+				for (int d=0; d<MAX_CHANNELS; d++){
 						
 					if(currentSum[d]){
 							
@@ -377,14 +377,14 @@ void sum_percents(int chans[], vector<Group> cues, int sum[]){
 	
 	int i, j, temp;
 	
-	for(i=0; i<MaxChannels; i++){
+	for(i=0; i<MAX_CHANNELS; i++){
 		sum[i]=chans[i];
 	}
 	
 	
 	for (i=0; i<cues.size(); i++){
 		
-		for (j=0; j<MaxChannels; j++){
+		for (j=0; j<MAX_CHANNELS; j++){
 			
 			temp = (int) ((cues[i].masterVal*cues[i].channelMax[j])/100);
 			if (temp>sum[j]){
@@ -428,7 +428,7 @@ void send_packet(int percents[]){
 	if ((recent - last) > 5000){
 		prev = now;
 	
-		for (unsigned char a=0; a<MaxChannels; a++){
+		for (unsigned char a=0; a<MAX_CHANNELS; a++){
 		
 			value = (unsigned char) ((255 * percents[a])/100);
 		
@@ -443,7 +443,7 @@ void send_packet(int percents[]){
 
 //sets all channel values to zero
 void clearChannels(int chans[]){
-	for (int i=0; i<MaxChannels; i++){
+	for (int i=0; i<MAX_CHANNELS; i++){
 		
 		chans[i]=0;
 		

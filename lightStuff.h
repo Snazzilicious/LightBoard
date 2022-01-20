@@ -12,9 +12,9 @@ class Group {
 	
 	
 	public:
-		bool activeChannels[MaxChannels];
-		int channelMax[MaxChannels];
-		unsigned char chanVals[MaxChannels];
+		bool activeChannels[MAX_CHANNELS];
+		int channelMax[MAX_CHANNELS];
+		unsigned char chanVals[MAX_CHANNELS];
 		
 		int name;
 		

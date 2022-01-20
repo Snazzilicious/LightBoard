@@ -94,7 +94,7 @@ class Group;
 
 int interpret_command (Command line, vector<Group> cueList, int percents[], int flag){
 	vector<bool> chanSelect;
-	chanSelect.resize(MaxChannels, false);
+	chanSelect.resize(MAX_CHANNELS, false);
 	int stopIndex, temp, through;
 	int percentVal=0;
 	int startIndex=0;
@@ -114,7 +114,7 @@ int interpret_command (Command line, vector<Group> cueList, int percents[], int 
 		
 				//gets the number of the first or only channel
 				temp = get_int(line.converted, startIndex, stopIndex, line.converted.size());
-				if ((temp<=MaxChannels) && ((temp-1) >= 0)){
+				if ((temp<=MAX_CHANNELS) && ((temp-1) >= 0)){
 					chanSelect[temp-1]=true;
 				}
 				else {
@@ -142,7 +142,7 @@ int interpret_command (Command line, vector<Group> cueList, int percents[], int 
 						//							isdigit(line.converted[stopIndex+1]) above
 						if ((percentVal<=100) && (stopIndex > startIndex)){
 			
-							for (int i=0; i<MaxChannels; i++){
+							for (int i=0; i<MAX_CHANNELS; i++){
 						
 								if (chanSelect[i]){
 									percents[i]=percentVal;
@@ -160,7 +160,7 @@ int interpret_command (Command line, vector<Group> cueList, int percents[], int 
 					case 'F':
 						percentVal = 100;
 						//sets all activated channels to Full
-						for (int i=0; i<MaxChannels; i++){
+						for (int i=0; i<MAX_CHANNELS; i++){
 						
 							if (chanSelect[i]){
 								percents[i]=percentVal;
@@ -184,7 +184,7 @@ int interpret_command (Command line, vector<Group> cueList, int percents[], int 
 				
 						if (startIndex < stopIndex){
 					
-							if ((through <= MaxChannels) && (through-1 >= 0)) {
+							if ((through <= MAX_CHANNELS) && (through-1 >= 0)) {
 						
 								if (through >= temp){
 							

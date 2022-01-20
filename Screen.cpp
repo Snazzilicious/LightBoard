@@ -12,7 +12,7 @@ int initialize_screen(int numOfFaders) {
 	
 	//prints channel labels
 	attron(A_UNDERLINE);
-	for (y=0; y<(MaxChannels / 2); y+=3) {
+	for (y=0; y<(MAX_CHANNELS / 2); y+=3) {
 		
 		for (x=4; x<=24; x+=4){
 			mvprintw(y+2, x, "%d", (2*y) + (x/4));
@@ -52,7 +52,7 @@ void print_screen(vector<Group*> cuesOnFaders, int Percents[], char messageToUse
 	
 	//prints the percentages of all the channels
 	//that were sent to the dimmer
-	for (y=1; y<(MaxChannels / 2)+1; y+=3){
+	for (y=1; y<(MAX_CHANNELS / 2)+1; y+=3){
 		move(y+2, 0);
 		clrtoeol();
 		for (x=4; x<=24; x+=4){

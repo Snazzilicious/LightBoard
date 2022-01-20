@@ -2,6 +2,6 @@
 //Sets the max number of channels for all files
 #ifndef MaxChannels
 
-#define MaxChannels 24
+#define MAX_CHANNELS 24
 
 #endif

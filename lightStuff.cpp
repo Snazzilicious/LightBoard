@@ -9,7 +9,7 @@ using namespace std;
 Group::Group(){
 	int i;
 	masterVal=0;
-	for (i=0; i<MaxChannels; i++){
+	for (i=0; i<MAX_CHANNELS; i++){
 		activeChannels[i]=false;
 		channelMax[i]=0;
 		chanVals[i]=0;
@@ -39,7 +39,7 @@ void Group::set_val(double percent){
 	
 	masterVal=percent;
 	
-	for (int i=0; i<MaxChannels; i++){
+	for (int i=0; i<MAX_CHANNELS; i++){
 		if(activeChannels[i]){
 			chanVals[i] = (unsigned char) ((255*channelMax[i]*masterVal)/10000);
 		}
