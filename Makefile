@@ -5,16 +5,22 @@ CFLAGS = --std=c++11 $(OPT)
 DBFLAGS = -g -Wall
 LIBS = -lcurses
 
-targets = go
+targets = test go
 
 
 all : $(targets)
 
 
+test : main.o Screen.o lightStuff.o
+	$(CC) $(CFLAGS) main.o Screen.o lightStuff.o $(LIBS) -o $@
+
 go : light1.o Screen.o lightStuff.o key_input.o dmx.o
 	$(CC) $(CFLAGS) light1.o Screen.o lightStuff.o key_input.o dmx.o $(LIBS) -o $@
 
-light1.0 : light1.cpp
+main.o : main.cpp
+	$(CC) $(CFLAGS) -c main.cpp
+
+light1.o : light1.cpp
 	$(CC) $(CFLAGS) -c light1.cpp
 
 Screen.o : Screen.cpp Screen.h
