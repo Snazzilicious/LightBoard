@@ -6,6 +6,8 @@ using namespace std;
 
 int initialize_screen(int numOfFaders) {
 	initscr();
+	noecho();
+
 	int x,y;
 	
 	mvprintw(0, 0, "%s", "F1: CLEAR INPUT  F2: SAVE AS CUE  F3: EXIT");

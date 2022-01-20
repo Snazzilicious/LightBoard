@@ -52,11 +52,17 @@ int main() {
 	char prompt4[] = "Load which cue?";
 	
 	
-	
-	
 	int eos = initialize_screen(2);
 	
-	getch();
+	timeout(100);
+	
+	int ch = 0;
+	int i=0;
+	while ( ch != 103 ){
+		ch = getch();
+		printw("%d",ch);
+		sleep(1);
+	}
 	
 //	close(joy_fd);
 	endwin();
