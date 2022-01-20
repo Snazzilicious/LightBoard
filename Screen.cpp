@@ -12,22 +12,23 @@ int initialize_screen(int numOfFaders) {
 	
 	mvprintw(0, 0, "%s", "F1: CLEAR INPUT  F2: SAVE AS CUE  F3: EXIT");
 	
+	int channelsPerLine = 6;
+	
 	//prints channel labels
 	attron(A_UNDERLINE);
-	for (y=0; y<(MAX_CHANNELS / 2); y+=3) {
-		
-		for (x=4; x<=24; x+=4){
-			mvprintw(y+2, x, "%d", (2*y) + (x/4));
-		}
-			
+	for (int i=0; i<MAX_CHANNELS; i++){
+		x = (i % channelsPerLine)*4 + 4;
+		y = (i / channelsPerLine)*3 + 2;
+		mvprintw( y, x, "%d", i+1 );
 	}
-	
-	
-	y+=3;
-	//prints each of the faders on the control board being used
-	for (x=2; x < 2+(numOfFaders*4); x+=4){
-		mvprintw(y, x, "F%d", ((x-2)/4) + 1);
 		
+	y+=3;
+	
+	//prints each of the faders on the control board being used
+	for (int i=0; i<numOfFaders; i++){
+		x = i*4 + 2;
+		
+		mvprintw(y, x, "F%d", i + 1);
 	}
 	attroff(A_UNDERLINE);
 	
