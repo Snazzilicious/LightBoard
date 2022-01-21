@@ -1,11 +1,8 @@
 
-#ifndef _LIGHT_STUFF
-#define _LIGHT_STUFF
+#ifndef GROUP_H
+#define GROUP_H
 
-#include <vector>
 #include "MaxChannels.h"
-
-//using namespace std;
 
 //cues from old board
 class Group {
