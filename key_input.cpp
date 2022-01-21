@@ -1,40 +1,30 @@
 
 #include "key_input.h"
-
 #include <ctype.h>
+#include <curses.h>
+#include <linux/input.h>
 
-#include <iostream>
-
-using namespace std;
-
-void Command::add(__u16 newElem){
-	raw.push_back( newElem );
+void Command::add(int newElem){
 	converted.push_back( convert(newElem) );
 }
 
 
 void Command::backspace(void) {
-	if (raw.size()>=1){
-		raw.pop_back();
-	}
-	if(converted.size()>=1){
-		converted.pop_back();
-	}
+	if(converted.size()>=1) converted.pop_back();
 }
 
 void Command::clear(void) {
-	raw.clear();
 	converted.clear();
 }
 
-char Command::convert(__u16 input){
+char Command::convert(int input){
 	char key;
 	
 	
 	switch (input) {
 		case KEY_C:
 			key = 'C';
-			break;			
+			break;
 		case KEY_A:
 			key = 'A';
 			break;
@@ -46,6 +36,18 @@ char Command::convert(__u16 input){
 			break;
 		case KEY_F:
 			key = 'F';
+			break;
+		case KEY_UP:
+			key = '^';
+			break;
+		case KEY_DOWN:
+			key = 'v';
+			break;
+		case KEY_LEFT:
+			key = '<';
+			break;
+		case KEY_RIGHT:
+			key = '>';
 			break;
 		case KEY_1:
 			key = '1';
@@ -90,10 +92,8 @@ char Command::convert(__u16 input){
 
 
 
-class Group;
-
-int interpret_command (Command line, vector<Group> cueList, int percents[], int flag){
-	vector<bool> chanSelect;
+int interpret_command (Command line, std::vector<Group> cueList, int percents[], int flag){
+	std::vector<bool> chanSelect;
 	chanSelect.resize(MAX_CHANNELS, false);
 	int stopIndex, temp, through;
 	int percentVal=0;
@@ -255,10 +255,10 @@ int interpret_command (Command line, vector<Group> cueList, int percents[], int 
 
 //converts an integer found in a c string to an actual integer
 //also returns the index of where the integer stopped
-int get_int(vector<char> cStr, int start, int &stop, int size){
+int get_int(std::vector<char> cStr, int start, int &stop, int size){
 	
 	int i, temp, sum;
-	vector<int> digits;
+	std::vector<int> digits;
 	
 	//counts and stores the digits in the string
 	//until it encounters a non-digit

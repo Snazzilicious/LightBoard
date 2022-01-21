@@ -54,7 +54,7 @@ int main() {
 	int eos = initialize_screen(2);
 	
 	timeout(100);
-	
+	printw("%d",KEY_A);
 	int ch = 0;
 	while ( ch != 103 ){
 		ch = getch();

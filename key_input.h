@@ -1,8 +1,7 @@
 
-#ifndef KEY_INPUT
-#define KEY_INPUT
+#ifndef KEY_INPUT_H
+#define KEY_INPUT_H
 
-#include <linux/input.h>
 #include <vector>
 #include "Group.h"
 
@@ -12,13 +11,12 @@
 #define LOAD_CUE 4
 
 class Command {
-	char convert(__u16);
+	char convert(int);
 	
 	public:
-	std::vector<__u16> raw;
 	std::vector<char> converted;
 	
-	void add(__u16);
+	void add(int);
 	void backspace(void);
 	void clear(void);
 };
