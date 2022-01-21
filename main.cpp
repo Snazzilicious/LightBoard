@@ -2,7 +2,7 @@
 
 #include "MaxChannels.h"
 
-#include "lightStuff.h"
+#include "Group.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -39,7 +39,6 @@ int main() {
 	if( ( joy_fd = open( JOY_DEV , O_RDONLY | O_NONBLOCK )) == -1 )
 	{
 		cout << "Couldn't open Joystick\n";
-		return -1;
 	}
 */
 	
@@ -57,7 +56,6 @@ int main() {
 	timeout(100);
 	
 	int ch = 0;
-	int i=0;
 	while ( ch != 103 ){
 		ch = getch();
 		printw("%d",ch);
@@ -125,25 +123,19 @@ int save_cuelist(std::vector<Group> list){
 
 int load_cuelist(std::vector<Group> &list) {
 	
+	std::ifstream in("Save", std::ifstream::binary);
+	if (!in.is_open()) return -1; //could not open file
+	
+	
 	int size;
 	int numberOfGroups;
-	
 	Group container;
 	
-	std::ifstream in("Save", std::ifstream::binary);
-	
-	if (!in.is_open()){
-		//could not open file
-		return -1;
-	}
 	
 	in.read((char *)&numberOfGroups, sizeof(int));
 	in.read((char *)&size, sizeof(int));
 	
-	if (size != sizeof(container)){
-		// Different number of channels probably
-		return -1;
-	}
+	if (size != sizeof(container)) return -1; // Different number of channels probably
 	
 	
 	for (size_t i=0; i<numberOfGroups; i++){

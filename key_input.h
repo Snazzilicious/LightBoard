@@ -4,8 +4,7 @@
 
 #include <linux/input.h>
 #include <vector>
-#include "lightStuff.h"
-#include "MaxChannels.h"
+#include "Group.h"
 
 #define STANDARD 1
 #define NAME_CUE 2
@@ -26,7 +25,7 @@ class Command {
 
 
 
-int interpret_command (Command line, std::vector<Group> cueList, int percents[], int flag);
+int interpret_command(Command line, std::vector<Group> cueList, int percents[], int flag);
 
 int get_int(std::vector<char> cStr, int start, int &stop, int size);
 

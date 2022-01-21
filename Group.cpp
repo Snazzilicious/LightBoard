@@ -1,6 +1,6 @@
 
 
-#include "lightStuff.h"
+#include "Group.h"
 
 using namespace std;
 

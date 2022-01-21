@@ -9,7 +9,7 @@
 #include "MaxChannels.h"
 
 #include "dmx.h"
-#include "lightStuff.h"
+#include "Group.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
