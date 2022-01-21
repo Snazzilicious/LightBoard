@@ -2,7 +2,6 @@
 #ifndef _SCREEN_H
 #define _SCREEN_H
 
-#include <curses.h>
 #include "key_input.h"
 #include "MaxChannels.h"
 #include <vector>

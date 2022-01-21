@@ -1,24 +1,25 @@
 
 #include "Screen.h"
-#include <iostream>
-
-using namespace std;
+#include <curses.h>
 
 int initialize_screen(int numOfFaders) {
 	initscr();
+	cbreak();
 	noecho();
+	keypad(stdscr,true);
 
 	int x,y;
 	
 	mvprintw(0, 0, "%s", "F1: CLEAR INPUT  F2: SAVE AS CUE  F3: EXIT");
 	
-	int channelsPerLine = 6;
+	int channelsPerLine = 6; // might want to set this based on terminal width, Or MAX_CHANNELS
 	
 	//prints channel labels
 	attron(A_UNDERLINE);
 	for (int i=0; i<MAX_CHANNELS; i++){
 		x = (i % channelsPerLine)*4 + 4;
 		y = (i / channelsPerLine)*3 + 2;
+		
 		mvprintw( y, x, "%d", i+1 );
 	}
 		
@@ -48,7 +49,7 @@ int initialize_screen(int numOfFaders) {
 
 //prints the percentages of all the channels
 //still needs the channels to be numbered
-void print_screen(vector<Group*> cuesOnFaders, int Percents[], char messageToUser[], Command commandLine, int &endline, int faderPercents[], int chanIn[], int Load){
+void print_screen(std::vector<Group*> cuesOnFaders, int Percents[], char messageToUser[], Command commandLine, int &endline, int faderPercents[], int chanIn[], int Load){
 	
 	int x,y,i;
 	Group temporary;
