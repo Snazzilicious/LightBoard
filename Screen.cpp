@@ -2,6 +2,78 @@
 #include "Screen.h"
 #include <curses.h>
 
+#define CHANNELS_START_X 4
+#define CHANNELS_START_Y 2
+
+#define HORIZ_SPAC 4
+#define VERTI_SPAC 3
+
+#include <cmath>
+
+Screen::Screen(int numFaders){
+	nFaders = numFaders;
+	
+	nRows = (int) std::sqrt( MAX_CHANNELS );
+	nCols = ( MAX_CHANNELS / nRows ) + 1;
+	
+	//curses initialization
+	initscr();
+	cbreak();
+	noecho();
+	keypad(stdscr,true);
+	
+	mvprintw(0, 0, "%s", "F1: CLEAR INPUT  F2: SAVE AS CUE  F3: EXIT");
+	
+	int x,y;
+	//prints channel labels
+	attron(A_UNDERLINE);
+	for (int i=0; i<MAX_CHANNELS; i++){
+		x = (i % nCols)*H_SPAC + CHAN_START_X;
+		y = (i / nRows)*V_SPAC + CHAN_START_Y;
+		
+		mvprintw( y, x, "%d", i+1 );
+	}
+	
+	y += H_SPAC;
+	
+	//prints each of the faders on the control board being used
+	for (int i=0; i<nFaders; i++){
+		x = i*H_SPAC + 2;
+		
+		mvprintw(y, x, "F%d", i + 1);
+	}
+	attroff(A_UNDERLINE);
+	
+	y += H_SPAC;
+	
+	//prints message
+	mvprintw(y, 2, "Program Initialized");
+	
+	refresh();
+}
+
+void Screen::update(Group* cuesOnFaders[], int Percents[], int chanIn[]){
+	int x,y;
+	
+	// clear old values
+	for (int i=0; i<nRows; i++){
+		y = i*V_SPAC + CHAN_START_Y + 1;
+		move(y,0);
+		clrtoeol();
+	}
+	
+	// Print Channel Percents
+	for (int i=0; i<MAX_CHANNELS; i++){
+		x = (i % nCols)*H_SPAC + CHAN_START_X;
+		y = (i / nRows)*V_SPAC + CHAN_START_Y + 1;
+		
+		if (chanIn[i]) attron(A_STANDOUT);
+		mvprintw( y, x, "%d", Percents[i] );
+		attroff(A_STANDOUT);
+	}
+}
+
+
 int initialize_screen(int numOfFaders) {
 	initscr();
 	cbreak();
@@ -17,8 +89,8 @@ int initialize_screen(int numOfFaders) {
 	//prints channel labels
 	attron(A_UNDERLINE);
 	for (int i=0; i<MAX_CHANNELS; i++){
-		x = (i % channelsPerLine)*4 + 4;
-		y = (i / channelsPerLine)*3 + 2;
+		x = (i % channelsPerLine)*HORIZ_SPAC + CHANNELS_START_X;
+		y = (i / channelsPerLine)*VERTI_SPAC + CHANNELS_START_Y;
 		
 		mvprintw( y, x, "%d", i+1 );
 	}
@@ -27,7 +99,7 @@ int initialize_screen(int numOfFaders) {
 	
 	//prints each of the faders on the control board being used
 	for (int i=0; i<numOfFaders; i++){
-		x = i*4 + 2;
+		x = i*HORIZ_SPAC + 2;
 		
 		mvprintw(y, x, "F%d", i + 1);
 	}
@@ -52,7 +124,15 @@ int initialize_screen(int numOfFaders) {
 void print_screen(std::vector<Group*> cuesOnFaders, int Percents[], char messageToUser[], Command commandLine, int &endline, int faderPercents[], int chanIn[], int Load){
 	
 	int x,y,i;
-	Group temporary;
+/*	for (int i=0; i<MAX_CHANNELS; i++){
+		x = (i % channelsPerLine)*HORIZ_SPAC + CHANNELS_START_X;
+		y = (i / channelsPerLine)*VERTI_SPAC + CHANNELS_START_Y+1;
+		
+		if( chanIn[i] ) attron(A_STANDOUT);
+		mvprintw( y, x, "%d", i+1 );
+		attroff(A_STANDOUT);
+	}
+*/
 	
 	//prints the percentages of all the channels
 	//that were sent to the dimmer
@@ -87,8 +167,7 @@ void print_screen(std::vector<Group*> cuesOnFaders, int Percents[], char message
 		}
 		
 		if (cuesOnFaders[i] != NULL){
-			temporary = *cuesOnFaders[i];
-			mvprintw(y, x, "%d", temporary.name);
+			mvprintw(y, x, "%d", cuesOnFaders[i]->name);
 		}
 		else {
 			mvprintw(y, x, " ");
