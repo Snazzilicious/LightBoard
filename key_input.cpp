@@ -1,27 +1,20 @@
 
 #include "key_input.h"
-#include <ctype.h>
 #include <curses.h>
-#include <linux/input.h>
 
-void Command::add(int newElem){
-	converted.push_back( convert(newElem) );
+CommandLine::CommandLine(){
+	cursorPos = 0;
 }
 
-
-void Command::backspace(void) {
-	if(converted.size()>=1) converted.pop_back();
+void CommandLine::clear(){
+	line.clear();
 }
 
-void Command::clear(void) {
-	converted.clear();
-}
-
-char Command::convert(int input){
+int CommandLine::keyPressed(int k){
+	
 	char key;
 	
-	
-	switch (input) {
+	switch (k) {
 		case KEY_C:
 			key = 'C';
 			break;
@@ -49,41 +42,41 @@ char Command::convert(int input){
 		case KEY_RIGHT:
 			key = '>';
 			break;
-		case KEY_1:
+		case 49:
 			key = '1';
 			break;
-		case KEY_2:
+		case 50:
 			key = '2';
 			break;
-		case KEY_3:
+		case 51:
 			key = '3';
 			break;
-		case KEY_4:
+		case 52:
 			key = '4';
 			break;
-		case KEY_5:
+		case 53:
 			key = '5';
 			break;
-		case KEY_6:
+		case 54:
 			key = '6';
 			break;
-		case KEY_7:
+		case 55:
 			key = '7';
 			break;
-		case KEY_8:
+		case 56:
 			key = '8';
 			break;
-		case KEY_9:
+		case 57:
 			key = '9';
 			break;
-		case KEY_0:
+		case 48:
 			key = '0';
 			break;
 		default:
 			key = '#';
 		}
 	
-	
+	line.push_back(key);
 	return key;
 }
 
