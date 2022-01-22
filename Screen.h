@@ -2,7 +2,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "key_input.h"
+#include "CommandLine.h"
 #include "MaxChannels.h"
 #include <vector>
 

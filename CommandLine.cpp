@@ -1,5 +1,5 @@
 
-#include "key_input.h"
+#include "CommandLine.h"
 #include <curses.h>
 
 CommandLine::CommandLine(){
@@ -15,19 +15,19 @@ int CommandLine::keyPressed(int k){
 	char key;
 	
 	switch (k) {
-		case KEY_C:
+		case 99:
 			key = 'C';
 			break;
-		case KEY_A:
+		case 97:
 			key = 'A';
 			break;
-		case KEY_MINUS:
+		case 45:
 			key = '-';
 			break;
-		case KEY_COMMA:
+		case 44:
 			key = ',';
 			break;
-		case KEY_F:
+		case 102:
 			key = 'F';
 			break;
 		case KEY_UP:

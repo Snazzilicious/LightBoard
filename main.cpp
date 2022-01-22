@@ -14,7 +14,7 @@
 #include <sys/ioctl.h>
 #include <linux/input.h>
 
-#include "key_input.h"
+#include "CommandLine.h"
 
 #define JOY_DEV "/dev/input/js0"
 
