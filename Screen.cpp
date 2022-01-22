@@ -1,14 +1,8 @@
 
 #include "Screen.h"
 #include <curses.h>
-
-#define CHANNELS_START_X 4
-#define CHANNELS_START_Y 2
-
-#define HORIZ_SPAC 4
-#define VERTI_SPAC 3
-
 #include <cmath>
+
 
 Screen::Screen(int numFaders){
 	nFaders = numFaders;
@@ -55,6 +49,8 @@ Screen::Screen(int numFaders){
 	//refresh();
 }
 
+
+
 void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg){
 	int x,y;
 	
@@ -85,7 +81,7 @@ void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int fad
 		
 		if (i == faderLoad) attron(A_STANDOUT);
 		if (cuesOnFaders[i] != nullptr){
-			mvprintw(y, x, "%d", cuesOnFaders[i]->name);
+			mvprintw(y, x, "%d", cuesOnFaders[i]->getName());
 		}
 		else {
 			mvprintw(y, x, "__");

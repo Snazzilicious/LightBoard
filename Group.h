@@ -6,22 +6,24 @@
 
 //cues from old board
 class Group {
-	
-	
-	public:
-		bool activeChannels[MAX_CHANNELS];
+	private:
 		int channelMax[MAX_CHANNELS];
-		unsigned char chanVals[MAX_CHANNELS];
+//		unsigned char chanVals[MAX_CHANNELS];
 		
 		int name;
 		
 		int masterVal;
-		
+	
+	public:
 		Group();
+		Group(int ID, int levels[]);
 		
 		void add_channel(int, int);
 		
-		void set_val(double);
+		void set_val(int);
+		
+		int getName();
+		int getPercent(int chan);
 };
 
 

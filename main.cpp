@@ -98,7 +98,7 @@ void sum_percents(int chans[], std::vector<Group> cues, int sum[]){
 	for (size_t i=0; i<cues.size(); i++){
 		for (size_t j=0; j<MAX_CHANNELS; j++){
 			
-			int temp = (int) ((cues[i].masterVal*cues[i].channelMax[j])/100);
+			int temp = cues[i].getPercent(j);
 			if (temp>sum[j]) sum[j]=temp;
 		}
 	}

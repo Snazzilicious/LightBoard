@@ -1,22 +1,22 @@
 
 
 #include "Group.h"
-#include <cstdlib>
 
-//constructor
-Group::Group(){
-	int i;
-	masterVal=0;
-	for (i=0; i<MAX_CHANNELS; i++){
-		activeChannels[i]=false;
-		channelMax[i]=0;
-		chanVals[i]=0;
+//constructor(s)
+Group::Group(){} // this is just to allow deserialization
+
+Group::Group(int ID, int levels[]){
+	name = ID;
+	masterVal = 0;
+	
+	for (int i=0; i<MAX_CHANNELS; i++){
+		channelMax[i]=levels[i];
+//		chanVals[i]=0;
 	}
 }
 
 //adds a channel
 void Group::add_channel(int chan, int maxPercent){
-		activeChannels[chan-1] = true;
 		channelMax[chan-1] = maxPercent;
 }
 
@@ -24,22 +24,29 @@ void Group::add_channel(int chan, int maxPercent){
 //casting from a percent to a ubyte may
 //not be necessary depending on how
 //input comes in
-void Group::set_val(double percent){
+void Group::set_val(int percent){
 	//checks for overflow or underflow
-	if(percent > 100.0){
-		percent = 100.0;
+	if(percent > 100){
+		percent = 100;
 	}
-	else if(percent < 0.0){
-		percent = 0.0;
+	else if(percent < 0){
+		percent = 0;
 	}
 	
 	masterVal=percent;
 	
-	for (size_t i=0; i<MAX_CHANNELS; i++){
-		if(activeChannels[i]){
-			chanVals[i] = (unsigned char) ((255*channelMax[i]*masterVal)/10000);
-		}
-	}
-	
+//	for (int i=0; i<MAX_CHANNELS; i++){
+//			chanVals[i] = (unsigned char) ((255*channelMax[i]*masterVal)/10000);
+//	}
+}
+
+
+int Group::getName(){
+	return name;
+}
+
+
+int Group::getPercent(int chan){
+	return (channelMax[chan]*masterVal)/100;
 }
 
