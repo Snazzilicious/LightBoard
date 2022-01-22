@@ -42,14 +42,14 @@ int main() {
 */
 	int numFaders = 2;
 	
-	// Messages to send to the user
-	char *message;
-	char msg1[] = "YOU'RE DOING GREAT!";
-	message = &msg1[0];
 	
+	// Messages to send to the user
+	char msg1[] = "YOU'RE DOING GREAT!";
 	char prompt2[] = "Cue Number: ";
 	char prompt3[] = "Are you sure you want to exit?";
 	char prompt4[] = "Load which cue?";
+	char *message = &msg1[0];
+	
 	
 	// Containers for channel percents and scenes and fader assignents
 	std::vector<Group> cues;
@@ -64,19 +64,25 @@ int main() {
 	int loadFader = -1;
 	
 	
-	
 	// Initialize display
 	Screen scr(numFaders);
 	scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message);
+	
+	
+	// Initialize command line
+	CommandLine cmd;
+	
 	
 	timeout(100);
 	printw("%d",KEY_A);
 	int ch = 0;
 	while ( ch != 103 ){
 		ch = getch();
-		printw("%d",ch);
+//		printw("%d",ch);
+		printw("%c",cmd.keyPressed(ch));
 		sleep(1);
 	}
+	
 	
 	delete[] cueOnFader;
 	delete[] faderPerc;

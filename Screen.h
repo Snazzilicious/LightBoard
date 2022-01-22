@@ -4,7 +4,7 @@
 
 #include "CommandLine.h"
 #include "MaxChannels.h"
-#include <vector>
+#include "Group.h"
 
 class Screen{
     private:
