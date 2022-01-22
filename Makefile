@@ -5,7 +5,7 @@ CFLAGS = --std=c++11 $(OPT)
 DBFLAGS = -g -Wall
 LIBS = -lcurses
 
-targets = test go
+targets = test
 
 
 all : $(targets)

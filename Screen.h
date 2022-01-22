@@ -22,12 +22,8 @@ class Screen{
     public:
 	Screen(int numFaders);
 	
-	void update(Group* cuesOnFaders[], int Percents[], int chanIn[], char* msg);
+	void update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg);
 };
 
-
-int initialize_screen(int);
-
-void print_screen(std::vector<Group*>, int Percents[], char messageToUser[], Command commandLine, int &endline, int faderPercents[], int chanIn[], int Load);
 
 #endif

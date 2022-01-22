@@ -54,13 +54,20 @@ int main() {
 	// Containers for channel percents and scenes and fader assignents
 	std::vector<Group> cues;
 	Group** cueOnFader = new Group*[numFaders];
-	for (int i=0; i<numFaders; i++) cueOnFader[i] = nullptr;
+	int* faderPerc = new int[numFaders];
+	for (int i=0; i<numFaders; i++){
+		cueOnFader[i] = nullptr;
+		faderPerc[i] = 0;
+	}
 	int chanInp[MAX_CHANNELS] = {0};
 	int chanPerc[MAX_CHANNELS] = {0};
+	int loadFader = -1;
+	
+	
 	
 	// Initialize display
 	Screen scr(numFaders);
-	scr.update(cueOnFader, chanPerc, chanInp, message);
+	scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message);
 	
 	timeout(100);
 	printw("%d",KEY_A);
@@ -72,6 +79,7 @@ int main() {
 	}
 	
 	delete[] cueOnFader;
+	delete[] faderPerc;
 //	close(joy_fd);
 	endwin();
 	return 0;
