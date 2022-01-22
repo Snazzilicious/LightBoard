@@ -9,10 +9,7 @@ Group::Group(int ID, int levels[]){
 	name = ID;
 	masterVal = 0;
 	
-	for (int i=0; i<MAX_CHANNELS; i++){
-		channelMax[i]=levels[i];
-//		chanVals[i]=0;
-	}
+	for (int i=0; i<MAX_CHANNELS; i++) channelMax[i]=levels[i];
 }
 
 //adds a channel
@@ -21,9 +18,7 @@ void Group::add_channel(int chan, int maxPercent){
 }
 
 
-//casting from a percent to a ubyte may
-//not be necessary depending on how
-//input comes in
+// sets master level
 void Group::set_val(int percent){
 	//checks for overflow or underflow
 	if(percent > 100){
@@ -34,10 +29,6 @@ void Group::set_val(int percent){
 	}
 	
 	masterVal=percent;
-	
-//	for (int i=0; i<MAX_CHANNELS; i++){
-//			chanVals[i] = (unsigned char) ((255*channelMax[i]*masterVal)/10000);
-//	}
 }
 
 

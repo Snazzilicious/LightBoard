@@ -4,11 +4,10 @@
 
 #include "MaxChannels.h"
 
-//cues from old board
+//cues from old board aka scenes
 class Group {
 	private:
 		int channelMax[MAX_CHANNELS];
-//		unsigned char chanVals[MAX_CHANNELS];
 		
 		int name;
 		
