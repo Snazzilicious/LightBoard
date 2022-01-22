@@ -2,12 +2,15 @@
 #include "CommandLine.h"
 #include <curses.h>
 
+#define KEY_ESC 27
+
 CommandLine::CommandLine(){
 	cursorPos = 0;
 }
 
 void CommandLine::clear(){
 	line.clear();
+	cursorPos = 0;
 }
 
 int CommandLine::keyPressed(int k){
@@ -32,16 +35,16 @@ int CommandLine::keyPressed(int k){
 			break;
 		case KEY_UP:
 			key = '^';
-			break;
+			return 0;
 		case KEY_DOWN:
 			key = 'v';
-			break;
+			return 0;
 		case KEY_LEFT:
-			key = '<';
-			break;
+			if (cursorPos > 0) cursorPos-- ;
+			return 0;
 		case KEY_RIGHT:
-			key = '>';
-			break;
+			if (cursorPos < line.size()) cursorPos++ ;
+			return 0;
 		case 49:
 			key = '1';
 			break;
@@ -72,212 +75,36 @@ int CommandLine::keyPressed(int k){
 		case 48:
 			key = '0';
 			break;
+		case KEY_F(1):
+			key = '0';
+			return 0;
+		case KEY_F(2):
+			key = '0';
+			return 0;
+		case KEY_F(3):
+			key = '0';
+			return 0;
+		case KEY_BACKSPACE:
+			if (cursorPos > 0){
+				cursorPos-- ;
+				line.erase( line.begin()+cursorPos );
+			}
+			return 0;
+		case KEY_ESC:
+			clear();
+			return 0;
+		case KEY_ENTER:
+			clear();
+			return 0;
 		default:
-			key = '#';
+			return 0;
 		}
 	
-	line.push_back(key);
-	return key;
-}
-
-
-
-
-
-
-int interpret_command (Command line, std::vector<Group> cueList, int percents[], int flag){
-	std::vector<bool> chanSelect;
-	chanSelect.resize(MAX_CHANNELS, false);
-	int stopIndex, temp, through;
-	int percentVal=0;
-	int startIndex=0;
-	
-	
-	//no command entered
-	if (line.converted.size()<1){
-		return -1;
-	}
-	
-	if(flag == STANDARD){
-	
-		//start loop
-		while (startIndex < line.converted.size()){
-	
-			if (isdigit(line.converted[startIndex])){
-		
-				//gets the number of the first or only channel
-				temp = get_int(line.converted, startIndex, stopIndex, line.converted.size());
-				if ((temp<=MAX_CHANNELS) && ((temp-1) >= 0)){
-					chanSelect[temp-1]=true;
-				}
-				else {
-					//channel out of range
-					return -1;
-				}
-		
-				//switch determines what to do with the next piece of the command
-				switch (line.converted[stopIndex]) {
-			
-					case 'A':
-						startIndex=stopIndex+1;
-			
-						if (isdigit(line.converted[startIndex])){
-							percentVal = get_int(line.converted, startIndex, stopIndex, line.converted.size());
-						}
-						else {
-							return -1;
-						}
-				
-				
-				
-						//sets all previously inputted channels to inputted percent
-						//						stop != start may not be necessary due to
-						//							isdigit(line.converted[stopIndex+1]) above
-						if ((percentVal<=100) && (stopIndex > startIndex)){
-			
-							for (int i=0; i<MAX_CHANNELS; i++){
-						
-								if (chanSelect[i]){
-									percents[i]=percentVal;
-									chanSelect[i]=false;
-								}
-							}
-							startIndex=stopIndex;
-						}	
-						else {
-							//percentage invalid
-							return -1;
-						}
-						break;
-			
-					case 'F':
-						percentVal = 100;
-						//sets all activated channels to Full
-						for (int i=0; i<MAX_CHANNELS; i++){
-						
-							if (chanSelect[i]){
-								percents[i]=percentVal;
-								chanSelect[i]=false;
-							}
-						}
-				
-						startIndex=stopIndex+1;
-						break;
-				
-			
-					case ',':
-						startIndex=stopIndex+1;
-						break;
-			
-			
-					case '-':
-						startIndex=stopIndex+1;
-				
-						through = get_int(line.converted, startIndex, stopIndex, line.converted.size());
-				
-						if (startIndex < stopIndex){
-					
-							if ((through <= MAX_CHANNELS) && (through-1 >= 0)) {
-						
-								if (through >= temp){
-							
-									for (int a=temp-1; a<through; a++){
-								
-										chanSelect[a]=true;
-									}
-							
-								}
-								else {
-									//invalid range
-									return -1;
-								}
-							}
-							else {
-								//channel out of range
-								return -1;
-							}
-						}
-						else {
-							//end of range invalid
-							return -1;
-						}
-				
-				
-						//startIndex=stopIndex;
-						break;
-			
-					default:
-						//invalid character
-						return -1;
-				}
-		
-		
-		
-		
-			}
-			else if(line.converted[startIndex] == ','){
-				startIndex++;
-			}
-			else {
-				return -1;
-			}
-	
-		//end of loop
-		}
-		
-	}
-	else if(flag == NAME_CUE || flag == LOAD_CUE){
-		temp = get_int(line.converted, 0, stopIndex, line.converted.size());
-		if (stopIndex != 0){
-			return temp;
-		}
-		else {
-			//number was invalid
-			return -1;
-		}
-	}
-	else if(flag == EXIT){
-		return 1;
-	}
-	
+	line.insert(line.begin()+cursorPos++, key);
 	
 	return 0;
 }
 
-
-
-//converts an integer found in a c string to an actual integer
-//also returns the index of where the integer stopped
-int get_int(std::vector<char> cStr, int start, int &stop, int size){
-	
-	int i, temp, sum;
-	std::vector<int> digits;
-	
-	//counts and stores the digits in the string
-	//until it encounters a non-digit
-	for (i=start; i<size; i++){
-		if (isdigit(cStr[i])){
-			temp = (int) cStr[i];
-			digits.push_back( temp-48 );
-		}
-		else {
-			
-			break;
-		}
-	}
-	stop = i;
-	
-	sum=0;
-	temp = digits.size();
-	
-	//adds up the digits after shifting
-	//them by the proper power of ten
-	int mult = 1;
-	for (i=temp-1; i>=0; i--){
-		
-		sum += digits[i]*mult;
-		mult *= 10;
-	}
-	
-	return sum;
+std::string CommandLine::getString(){
+	return "w.i.p";
 }

@@ -3,6 +3,7 @@
 #define COMMAND_LINE_H
 
 #include <vector>
+#include <string>
 
 class CommandLine {
 	private:
@@ -12,6 +13,8 @@ class CommandLine {
 		CommandLine();
 		int keyPressed(int k);
 		void clear();
+		
+		std::string getString();
 };
 
 
