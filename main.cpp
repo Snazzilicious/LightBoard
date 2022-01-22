@@ -55,12 +55,12 @@ int main() {
 	std::vector<Group> cues;
 	Group** cueOnFader = new Group*[numFaders];
 	for (int i=0; i<numFaders; i++) cueOnFader[i] = nullptr;
-	int chanVals[MAX_CHANNELS];
-	clearChannels(chanVals);
+	int chanInp[MAX_CHANNELS] = {0};
+	int chanPerc[MAX_CHANNELS] = {0};
 	
 	// Initialize display
 	Screen scr(numFaders);
-	
+	scr.update(cueOnFader, chanPerc, chanInp, message);
 	
 	timeout(100);
 	printw("%d",KEY_A);

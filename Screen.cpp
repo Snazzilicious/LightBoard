@@ -49,10 +49,13 @@ Screen::Screen(int numFaders){
 	//prints message
 	mvprintw(y, 2, "Program Initialized");
 	
-	refresh();
+	y += 1;
+	move(y, 2);
+	
+	//refresh();
 }
 
-void Screen::update(Group* cuesOnFaders[], int Percents[], int chanIn[]){
+void Screen::update(Group* cuesOnFaders[], int Percents[], int chanIn[], char* msg){
 	int x,y;
 	
 	// clear old values
@@ -71,6 +74,28 @@ void Screen::update(Group* cuesOnFaders[], int Percents[], int chanIn[]){
 		mvprintw( y, x, "%d", Percents[i] );
 		attroff(A_STANDOUT);
 	}
+	
+	y += H_SPAC;
+	
+	// Print cuesOnFaders
+	move(y,0);
+	clrtoeol();
+	for (int i=0; i<nFaders; i++){
+		x = i*H_SPAC + 2;
+		
+		if (cuesOnFaders[i] != nullptr) mvprintw(y, x, "%d", cuesOnFaders[i]->name);
+	}
+	
+	y += H_SPAC-1;
+	
+	//prints message
+	clrtoeol();
+	mvprintw(y, 2, msg);
+	
+	y += 1;
+	move(y,2);
+	
+	//refresh();
 }
 
 
