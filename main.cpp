@@ -11,7 +11,6 @@
 #include "Screen.h"
 
 #include <unistd.h>
-#include <sys/time.h>
 #include <sys/ioctl.h>
 #include <linux/input.h>
 
@@ -41,7 +40,9 @@ int main() {
 		cout << "Couldn't open Joystick\n";
 	}
 */
+	int numFaders = 2;
 	
+	// Messages to send to the user
 	char *message;
 	char msg1[] = "YOU'RE DOING GREAT!";
 	message = &msg1[0];
@@ -50,8 +51,16 @@ int main() {
 	char prompt3[] = "Are you sure you want to exit?";
 	char prompt4[] = "Load which cue?";
 	
+	// Containers for channel percents and scenes and fader assignents
+	std::vector<Group> cues;
+	Group** cueOnFader = new Group*[numFaders];
+	for (int i=0; i<numFaders; i++) cueOnFader[i] = nullptr;
+	int chanVals[MAX_CHANNELS];
+	clearChannels(chanVals);
 	
-	int eos = initialize_screen(2);
+	// Initialize display
+	Screen scr(numFaders);
+	
 	
 	timeout(100);
 	printw("%d",KEY_A);
@@ -62,6 +71,7 @@ int main() {
 		sleep(1);
 	}
 	
+	delete[] cueOnFader;
 //	close(joy_fd);
 	endwin();
 	return 0;

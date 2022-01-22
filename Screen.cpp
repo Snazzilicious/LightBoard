@@ -14,7 +14,7 @@ Screen::Screen(int numFaders){
 	nFaders = numFaders;
 	
 	nRows = (int) std::sqrt( MAX_CHANNELS );
-	nCols = ( MAX_CHANNELS / nRows ) + 1;
+	nCols = (MAX_CHANNELS-1) / nRows + 1;
 	
 	//curses initialization
 	initscr();
@@ -29,7 +29,7 @@ Screen::Screen(int numFaders){
 	attron(A_UNDERLINE);
 	for (int i=0; i<MAX_CHANNELS; i++){
 		x = (i % nCols)*H_SPAC + CHAN_START_X;
-		y = (i / nRows)*V_SPAC + CHAN_START_Y;
+		y = (i / nCols)*V_SPAC + CHAN_START_Y;
 		
 		mvprintw( y, x, "%d", i+1 );
 	}
@@ -65,7 +65,7 @@ void Screen::update(Group* cuesOnFaders[], int Percents[], int chanIn[]){
 	// Print Channel Percents
 	for (int i=0; i<MAX_CHANNELS; i++){
 		x = (i % nCols)*H_SPAC + CHAN_START_X;
-		y = (i / nRows)*V_SPAC + CHAN_START_Y + 1;
+		y = (i / nCols)*V_SPAC + CHAN_START_Y + 1;
 		
 		if (chanIn[i]) attron(A_STANDOUT);
 		mvprintw( y, x, "%d", Percents[i] );
