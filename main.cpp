@@ -78,7 +78,7 @@ int main() {
 		ch = getch();
 //		printw("%d",ch);
 //		printw("%c",cmd.keyPressed(ch));
-		sleep(1);
+//		sleep(1);
 		stat = cmd.keyPressed(ch);
 		scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message, cmd);
 	}

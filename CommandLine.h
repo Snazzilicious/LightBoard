@@ -3,12 +3,17 @@
 #define COMMAND_LINE_H
 
 #include <vector>
-#include <string>
+#include <list>
+
+#define MAX_HIST_LEN 10
 
 class CommandLine {
 	private:
-		std::vector<char> line;
 		int cursorPos;
+		std::vector<char> line;
+		
+		std::list<std::vector<char>>::iterator curHist;
+		std::list<std::vector<char>> hist;
 	public:
 		CommandLine();
 		int keyPressed(int k);

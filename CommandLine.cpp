@@ -3,9 +3,11 @@
 #include <curses.h>
 
 #define KEY_ESC 27
+#define KEY_ENTER 10
 
 CommandLine::CommandLine(){
 	cursorPos = 0;
+	curHist = hist.begin();
 }
 
 void CommandLine::clear(){
@@ -34,10 +36,18 @@ int CommandLine::keyPressed(int k){
 			key = 'F';
 			break;
 		case KEY_UP:
-			key = '^';
+			if (curHist != hist.end()){
+				line = *curHist;
+				curHist++;
+				cursorPos = line.size();
+			}
 			return 0;
 		case KEY_DOWN:
-			key = 'v';
+			if (curHist != hist.begin()){
+				curHist--;
+				line = *curHist;
+				cursorPos = line.size();
+			}
 			return 0;
 		case KEY_LEFT:
 			if (cursorPos > 0) cursorPos-- ;
@@ -94,6 +104,9 @@ int CommandLine::keyPressed(int k){
 			clear();
 			return 0;
 		case KEY_ENTER:
+			hist.push_front(line);
+			curHist = hist.begin();
+			if (hist.size() > MAX_HIST_LEN) hist.pop_back();
 			clear();
 			return 0;
 		default:

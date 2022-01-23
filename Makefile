@@ -1,8 +1,8 @@
 
 CC = g++
 OPT = #-O3
-CFLAGS = --std=c++11 $(OPT)
 DBFLAGS = -g -Wall
+CFLAGS = --std=c++11 $(OPT) #$(DBFLAGS)
 LIBS = -lcurses
 
 targets = test
