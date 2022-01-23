@@ -10,14 +10,16 @@
 class CommandLine {
 	private:
 		int cursorPos;
-		std::vector<char> line;
+		std::list<std::vector<char>>::iterator line;
 		
-		std::list<std::vector<char>>::iterator curHist;
 		std::list<std::vector<char>> hist;
+		std::list<std::vector<char>> wrkSpace;
+		
+		void clear();
+		void resetWrkSpace();
 	public:
 		CommandLine();
 		int keyPressed(int k);
-		void clear();
 		
 		std::vector<char>::iterator lineBegin();
 		std::vector<char>::iterator lineEnd();
