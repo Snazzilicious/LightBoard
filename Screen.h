@@ -22,7 +22,7 @@ class Screen{
     public:
 	Screen(int numFaders);
 	
-	void update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg);
+	void update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg, CommandLine cmd);
 };
 
 

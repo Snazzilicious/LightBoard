@@ -51,7 +51,7 @@ Screen::Screen(int numFaders){
 
 
 
-void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg){
+void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int faderLoad, int faderPercents[], char* msg, CommandLine cmd){
 	int x,y;
 	
 	// clear old values
@@ -107,13 +107,16 @@ void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int fad
 	mvprintw(y, 2, msg);
 	
 	y += 1;
-	move(y,2);
 	
 	//prints the entered command
-//	for (int i=0; i<commandLine.converted.size(); i++){
-//			mvprintw(endline, 2+i, "%c", commandLine.converted[i]);
-//	}
-//	clrtoeol();
+	move(y,0);
+	clrtoeol();
+	x=2;
+	for (std::vector<char>::iterator it=cmd.lineBegin(); it != cmd.lineEnd(); it++){
+		mvprintw(y, x, "%c", *it);
+		x++;
+	}
+	move(y,cmd.getCursorPos()+2);
 	
 	//refresh();
 }

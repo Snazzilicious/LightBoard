@@ -105,6 +105,14 @@ int CommandLine::keyPressed(int k){
 	return 0;
 }
 
-std::string CommandLine::getString(){
-	return "w.i.p";
+
+std::vector<char>::iterator CommandLine::lineBegin(){
+	return line.begin();
+}
+std::vector<char>::iterator CommandLine::lineEnd(){
+	return line.end();
+}
+
+int CommandLine::getCursorPos(){
+	return cursorPos;
 }

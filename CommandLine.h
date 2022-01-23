@@ -14,7 +14,10 @@ class CommandLine {
 		int keyPressed(int k);
 		void clear();
 		
-		std::string getString();
+		std::vector<char>::iterator lineBegin();
+		std::vector<char>::iterator lineEnd();
+		
+		int getCursorPos();
 };
 
 

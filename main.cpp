@@ -66,21 +66,21 @@ int main() {
 	
 	// Initialize display
 	Screen scr(numFaders);
-	scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message);
-	
 	
 	// Initialize command line
 	CommandLine cmd;
 	
 	
 	timeout(100);
-	printw("%d",KEY_A);
 	int ch = 0;
+	int stat = 0;
 	while ( ch != 103 ){
 		ch = getch();
 //		printw("%d",ch);
-		printw("%c",cmd.keyPressed(ch));
+//		printw("%c",cmd.keyPressed(ch));
 		sleep(1);
+		stat = cmd.keyPressed(ch);
+		scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message, cmd);
 	}
 	
 	
