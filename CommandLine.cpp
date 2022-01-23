@@ -3,7 +3,7 @@
 #include <curses.h>
 
 #define KEY_ESC 27
-#define KEY_ENTER 10
+#define KEY_RETURN 10
 
 CommandLine::CommandLine(){
 	cursorPos = 0;
@@ -103,7 +103,7 @@ int CommandLine::keyPressed(int k){
 		case KEY_ESC:
 			clear();
 			return 0;
-		case KEY_ENTER:
+		case KEY_RETURN:
 			hist.push_front(line);
 			curHist = hist.begin();
 			if (hist.size() > MAX_HIST_LEN) hist.pop_back();
