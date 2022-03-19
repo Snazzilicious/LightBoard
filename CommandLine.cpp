@@ -116,7 +116,8 @@ int CommandLine::keyPressed(int k){
 			resetWrkSpace();
 			return 0;
 		case KEY_RETURN:
-			
+			lastCmd = std::string( line->data(), line->size() );
+
 			hist.push_front(*line);
 			if (hist.size() > MAX_HIST_LEN) hist.pop_back();
 			resetWrkSpace();
@@ -141,4 +142,9 @@ std::vector<char>::iterator CommandLine::lineEnd(){
 
 int CommandLine::getCursorPos(){
 	return cursorPos;
+}
+
+
+std::string CommandLine::getLastCmd(){
+	return lastCmd;
 }

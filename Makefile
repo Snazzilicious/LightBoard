@@ -26,7 +26,7 @@ light1.o : light1.cpp
 Screen.o : Screen.cpp Screen.h Group.h CommandLine.h
 	$(CC) $(CFLAGS) -c Screen.cpp
 
-Group.o : Group.cpp Group.h 
+Group.o : Group.cpp Group.h
 	$(CC) $(CFLAGS) -c Group.cpp
 
 CommandLine.o : CommandLine.cpp CommandLine.h
