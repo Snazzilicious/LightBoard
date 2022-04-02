@@ -120,6 +120,7 @@ int main() {
 						// do nothing
 						break;
 				}
+				break;
 			case LOAD_CUE :
 				switch( stat ){
 					case CommandLine::ENTER_PRESSED :
@@ -141,6 +142,7 @@ int main() {
 						// do nothing
 						break;
 				}
+				break;
 			case EXITING :
 				
 				if( ch == 121 /* Y */ || stat == CommandLine::ENTER_PRESSED ){
@@ -171,7 +173,7 @@ int main() {
 					case CommandLine::F3_PRESSED :
 						
 						mode = SAVE_CUE;
-						message = &prompt4[0];
+						message = &prompt2[0];
 						break;
 						
 					case CommandLine::F4_PRESSED :
@@ -184,6 +186,8 @@ int main() {
 						// do nothing
 						break;
 				}
+				break;
+				
 			default :
 				// An error has occured - should exit loop
 				break;
