@@ -30,11 +30,14 @@ void sum_percents(int chans[], int numFaders, Group** cues, int sum[]);
 
 void clearChannels(int chans[]);
 
-int save_cuelist(std::vector<Group> list);
+int save_cuelist(const std::unordered_map<int,Group>& list);
 
-int load_cuelist(std::vector<Group> &list);
+int load_cuelist(std::unordered_map<int,Group>& list);
 
 int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] );
+
+void saveScene( int name, std::unordered_map<int,Group>& cues, int levels[] );
+
 
 int main() {
 
@@ -101,6 +104,7 @@ int main() {
 						
 						// Get the cue number
 						info = getSingleInt( cmd.getLastCmd() );
+						if( info >= 0 ) saveScene( info, cues, chanPerc );
 						
 						// go to ENTER_CHANNELS
 					case CommandLine::F2_PRESSED :
@@ -222,9 +226,6 @@ int save_cuelist(const std::unordered_map<int,Group> &list){
 	return 0;
 }
 
-
-
-
 int load_cuelist(std::unordered_map<int,Group> &list) {
 	
 	std::ifstream in("Save", std::ifstream::binary);
@@ -254,6 +255,7 @@ int load_cuelist(std::unordered_map<int,Group> &list) {
 }
 
 
+
 int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] ){
 	for( size_t i=0; i<parsed.chans.size(); i++ ){
 		int c = parsed.chans[i]-1;
@@ -264,6 +266,23 @@ int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] ){
 	}
 	return 0;
 }
+
+
+void saveScene( int name, std::unordered_map<int,Group>& cues, int levels[] ){
+	// Check if scene exists already
+	std::unordered_map<int,Group>::iterator it = cues.find( name );
+	
+	if( it == cues.end() ){
+		cues.insert( std::pair<int,Group>( name, Group(name, levels) ) );
+	} else {
+		it->second.overwriteChanMax( levels );
+	}
+}
+
+
+
+
+
 
 
 

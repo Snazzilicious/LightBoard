@@ -9,12 +9,16 @@ Group::Group(int ID, int levels[]){
 	name = ID;
 	masterVal = 0;
 	
-	for (int i=0; i<MAX_CHANNELS; i++) channelMax[i]=levels[i];
+	overwriteChanMax( levels );
 }
 
 //adds a channel
 void Group::add_channel(int chan, int maxPercent){
 		channelMax[chan-1] = maxPercent;
+}
+
+void Group::overwriteChanMax( int levels[] ){
+	for (int i=0; i<MAX_CHANNELS; i++) channelMax[i]=levels[i];
 }
 
 

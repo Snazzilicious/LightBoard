@@ -17,7 +17,8 @@ class Group {
 		Group();
 		Group(int ID, int levels[]);
 		
-		void add_channel(int, int);
+		void add_channel(int chan, int maxPercent);
+		void overwriteChanMax( int levels[] );
 		
 		void set_val(int);
 		
