@@ -11,8 +11,8 @@ targets = test
 all : $(targets)
 
 
-test : main.o Screen.o Group.o CommandLine.o
-	$(CC) $(CFLAGS) main.o Screen.o Group.o CommandLine.o $(LIBS) -o $@
+test : main.o Screen.o Group.o CommandLine.o parseCommands.o
+	$(CC) $(CFLAGS) main.o Screen.o Group.o CommandLine.o parseCommands.o $(LIBS) -o $@
 
 go : light1.o Screen.o Group.o CommandLine.o dmx.o
 	$(CC) $(CFLAGS) light1.o Screen.o Group.o CommandLine.o dmx.o $(LIBS) -o $@
@@ -31,6 +31,9 @@ Group.o : Group.cpp Group.h
 
 CommandLine.o : CommandLine.cpp CommandLine.h
 	$(CC) $(CFLAGS) -c CommandLine.cpp
+
+parseCommands.o : parseCommands.cpp parseCommands.h
+	$(CC) $(CFLAGS) -c parseCommands.cpp
 
 dmx.o : dmx.c dmx.h
 	$(CC) $(CFLAGS) -c dmx.c

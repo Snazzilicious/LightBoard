@@ -15,6 +15,7 @@
 #include <linux/input.h>
 
 #include "CommandLine.h"
+#include "parseCommands.h"
 
 #define JOY_DEV "/dev/input/js0"
 
@@ -24,7 +25,9 @@
 #define LOAD_CUE 2
 #define EXITING 3
 
+
 void sum_percents(int chans[], std::vector<Group> cues, int sum[]);
+void sum_percents(int chans[], int numFaders, Group** cues, int sum[]);
 
 void clearChannels(int chans[]);
 
@@ -49,7 +52,7 @@ int main() {
 	// Messages to send to the user
 	char msg1[] = "YOU'RE DOING GREAT!";
 	char prompt2[] = "Cue Number: ";
-	char prompt3[] = "Are you sure you want to exit?";
+	char prompt3[] = "Are you sure you want to exit? [y]/n";
 	char prompt4[] = "Load which cue?";
 	char *message = &msg1[0];
 	
@@ -73,43 +76,73 @@ int main() {
 	// Initialize command line
 	CommandLine cmd;
 	
+	// For getting input chans and levels
+	std::vector<pair> c_and_l;
 	
 	timeout(100);
 	int ch = 0;
 	int stat = 0;
 	int mode = ENTER_CHANNELS;
+	bool running = true;
 	
-	while ( ch != 103 ){
+	while ( running ){
 		ch = getch();
+		if( ch == 103 ) running = false;
 //		printw("%d",ch);
 //		printw("%c",cmd.keyPressed(ch));
 //		sleep(1);
 		stat = cmd.keyPressed(ch);
 		
 		switch( mode ){
-			case ENTER_CHANNELS :
 			case SAVE_CUE :
 			case LOAD_CUE :
 			case EXITING :
-			default :
+				
+				if( ch == 121 /* Y */ || stat == CommandLine::ENTER_PRESSED ){
+					running = false;
+				} else if( ch == 110 /* N */ ){
+					mode = ENTER_CHANNELS;
+					message = &msg1[0];
+				}
+				break;
+				
+			case ENTER_CHANNELS :
 				switch( stat ){
 					case CommandLine::ENTER_PRESSED :
+						
 						// Parse the command and set any channel levels
-//						getChannelsAndLevels( cmd.getLastCmd() );
+						c_and_l = getChannelsAndLevels( cmd.getLastCmd() );
+						for( size_t i=0; i<c_and_l.size(); i++ )
+							chanInp[ c_and_l[i].chan ] = c_and_l[i].level;
+						
+						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;
+						
 					case CommandLine::F1_PRESSED :
+						
 						clearChannels( chanInp );
-						sum_percents( chanInp, cues, chanPerc );
+						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;
+						
 					case CommandLine::F2_PRESSED :
+						
 						mode = SAVE_CUE;
 						message = &prompt4[0];
+						break;
+						
 					case CommandLine::F3_PRESSED :
+						
 						mode = EXITING;
 						message = &prompt3[0];
+						break;
+						
 					default :
 						// do nothing
+						break;
 				}
+			default :
+				// An error has occured - should exit loop
+				break;
 		}
 		scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message, cmd);
 	}
@@ -136,6 +169,22 @@ void sum_percents(int chans[], std::vector<Group> cues, int sum[]){
 		for (size_t j=0; j<MAX_CHANNELS; j++){
 			
 			int temp = cues[i].getPercent(j);
+			if (temp>sum[j]) sum[j]=temp;
+		}
+	}
+	
+}
+
+
+void sum_percents(int chans[], int numFaders, Group** cues, int sum[]){
+	for(size_t i=0; i<MAX_CHANNELS; i++)
+		sum[i]=chans[i];
+	
+	for (size_t i=0; i<numFaders; i++){
+		if( cues[i] == nullptr ) continue;
+		
+		for (size_t j=0; j<MAX_CHANNELS; j++){
+			int temp = cues[i]->getPercent(j);
 			if (temp>sum[j]) sum[j]=temp;
 		}
 	}
