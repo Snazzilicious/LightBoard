@@ -35,6 +35,7 @@ int save_cuelist(std::vector<Group> list);
 
 int load_cuelist(std::vector<Group> &list);
 
+int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] );
 
 int main() {
 
@@ -81,9 +82,10 @@ int main() {
 	
 	timeout(100);
 	int ch = 0;
-	int stat = 0;
+	int stat = CommandLine::NONE;
 	int mode = ENTER_CHANNELS;
 	bool running = true;
+	int info=0;
 	
 	while ( running ){
 		ch = getch();
@@ -112,8 +114,7 @@ int main() {
 						
 						// Parse the command and set any channel levels
 						parsed = getChannelsAndLevels( cmd.getLastCmd() );
-						for( size_t i=0; i<parsed.chans.size(); i++ )
-							chanInp[ parsed.chans[i]-1 ] = parsed.levs[i];
+						info = setChannelsAndLevels( parsed, chanInp );
 						
 						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;
@@ -252,3 +253,16 @@ int load_cuelist(std::vector<Group> &list) {
 	
 	return list.size();
 }
+
+
+int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] ){
+	for( size_t i=0; i<parsed.chans.size(); i++ ){
+		int c = parsed.chans[i]-1;
+		int l = parsed.levs[i];
+		
+		if( c>=0 && c<MAX_CHANNELS && l>=0 && l<=100 )
+			chanLevs[ c ] = l;
+	}
+	return 0;
+}
+
