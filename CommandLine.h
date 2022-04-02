@@ -31,11 +31,12 @@ class CommandLine {
 
 		std::string getLastCmd();
 		
-		static const ENTER_PRESSED=0;
-		static const CLEAR_PRESSED=1;
-		static const F1_PRESSED=2;
-		static const F2_PRESSED=3;
-		static const F3_PRESSED=4;
+		static const int NONE=0;
+		static const int ENTER_PRESSED=1;
+		static const int CLEAR_PRESSED=2;
+		static const int F1_PRESSED=3;
+		static const int F2_PRESSED=4;
+		static const int F3_PRESSED=5;
 };
 
 

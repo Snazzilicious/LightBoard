@@ -44,6 +44,12 @@ int CommandLine::keyPressed(int k){
 		case 102:
 			key = 'F';
 			break;
+//		case 110:
+//			key = 'N';
+//			break;
+//		case 121:
+//			key = 'Y';
+//			break;
 		case KEY_UP:
 			line++;
 			if (line != wrkSpace.end()){
@@ -51,19 +57,19 @@ int CommandLine::keyPressed(int k){
 			} else {
 				line--;
 			}
-			return 0;
+			return NONE;
 		case KEY_DOWN:
 			if (line != wrkSpace.begin()){
 				line--;
 				cursorPos = line->size();
 			}
-			return 0;
+			return NONE;
 		case KEY_LEFT:
 			if (cursorPos > 0) cursorPos-- ;
-			return 0;
+			return NONE;
 		case KEY_RIGHT:
 			if (cursorPos < line->size()) cursorPos++ ;
-			return 0;
+			return NONE;
 		case 49:
 			key = '1';
 			break;
@@ -96,25 +102,25 @@ int CommandLine::keyPressed(int k){
 			break;
 		case KEY_F(1):
 			key = '0';
-			return 0;
+			return F1_PRESSED;
 		case KEY_F(2):
 			key = '0';
-			return 0;
+			return F2_PRESSED;
 		case KEY_F(3):
 			key = '0';
-			return 0;
+			return F3_PRESSED;
 		case KEY_BACKSPACE:
 			if (cursorPos > 0){
 				cursorPos-- ;
 				line->erase( line->begin()+cursorPos );
 			}
-			return 0;
+			return NONE;
 //		case KEY_ESC: THIS COMES WITH A ~1 sec timer if using keypad()
 //			resetWrkSpace();
 //			return 0;
 		case KEY_C_AS_ESC:
 			resetWrkSpace();
-			return 0;
+			return NONE;
 		case KEY_RETURN:
 			lastCmd = std::string( line->data(), line->size() );
 
@@ -122,14 +128,14 @@ int CommandLine::keyPressed(int k){
 			if (hist.size() > MAX_HIST_LEN) hist.pop_back();
 			resetWrkSpace();
 			
-			return 0;
+			return ENTER_PRESSED;
 		default:
-			return 0;
+			return NONE;
 		}
 	
 	line->insert(line->begin()+cursorPos++, key);
 	
-	return 0;
+	return NONE;
 }
 
 
