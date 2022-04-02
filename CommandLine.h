@@ -30,6 +30,12 @@ class CommandLine {
 		int getCursorPos();
 
 		std::string getLastCmd();
+		
+		static const ENTER_PRESSED=0;
+		static const CLEAR_PRESSED=1;
+		static const F1_PRESSED=2;
+		static const F2_PRESSED=3;
+		static const F3_PRESSED=4;
 };
 
 

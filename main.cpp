@@ -19,7 +19,10 @@
 #define JOY_DEV "/dev/input/js0"
 
 
-
+#define ENTER_CHANNELS 0
+#define SAVE_CUE 1
+#define LOAD_CUE 2
+#define EXITING 3
 
 void sum_percents(int chans[], std::vector<Group> cues, int sum[]);
 
@@ -74,12 +77,40 @@ int main() {
 	timeout(100);
 	int ch = 0;
 	int stat = 0;
+	int mode = ENTER_CHANNELS;
+	
 	while ( ch != 103 ){
 		ch = getch();
 //		printw("%d",ch);
 //		printw("%c",cmd.keyPressed(ch));
 //		sleep(1);
 		stat = cmd.keyPressed(ch);
+		
+		switch( mode ){
+			case ENTER_CHANNELS :
+			case SAVE_CUE :
+			case LOAD_CUE :
+			case EXITING :
+			default :
+				switch( stat ){
+					case CommandLine::ENTER_PRESSED :
+						// Parse the command and set any channel levels
+//						getChannelsAndLevels( cmd.getLastCmd() );
+						break;
+					case CommandLine::F1_PRESSED :
+						clearChannels( chanInp );
+						sum_percents( chanInp, cues, chanPerc );
+						break;
+					case CommandLine::F2_PRESSED :
+						mode = SAVE_CUE;
+						message = &prompt4[0];
+					case CommandLine::F3_PRESSED :
+						mode = EXITING;
+						message = &prompt3[0];
+					default :
+						// do nothing
+				}
+		}
 		scr.update(chanPerc, chanInp, cueOnFader, loadFader, faderPerc, message, cmd);
 	}
 	
