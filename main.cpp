@@ -105,27 +105,23 @@ int main() {
 						
 						// go to ENTER_CHANNELS
 					case CommandLine::F2_PRESSED :
+					case CommandLine::F4_PRESSED :
 						
 						mode = ENTER_CHANNELS;
 						message = &msg1[0];
-						break;
-						
-					case CommandLine::F4_PRESSED :
-						
-						mode = EXITING;
-						message = &prompt3[0];
 						break;
 						
 					default :
 						// do nothing
 						break;
 				}
+			
 			case LOAD_CUE :
 			case EXITING :
 				
 				if( ch == 121 /* Y */ || stat == CommandLine::ENTER_PRESSED ){
 					running = false;
-				} else if( ch == 110 /* N */ ){
+				} else if( ch == 110 /* N */ || stat == CommandLine::F2_PRESSED || stat == CommandLine::F4_PRESSED ){
 					mode = ENTER_CHANNELS;
 					message = &msg1[0];
 				}
@@ -288,4 +284,6 @@ int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] ){
 	}
 	return 0;
 }
+
+
 
