@@ -38,6 +38,8 @@ int setChannelsAndLevels( ParsedCMD parsed, int chanLevs[] );
 
 void saveScene( int name, std::unordered_map<int,Group>& cues, int levels[] );
 
+void assignCueToFader( int name, std::unordered_map<int,Group>& cues, int whichFader, Group* cueOnFader[] );
+
 
 int main() {
 
@@ -118,8 +120,27 @@ int main() {
 						// do nothing
 						break;
 				}
-			
 			case LOAD_CUE :
+				switch( stat ){
+					case CommandLine::ENTER_PRESSED :
+						
+						// Get the cue number
+						info = getSingleInt( cmd.getLastCmd() );
+						if( info >= 0 ) assignCueToFader( info, cues, loadFader, cueOnFader );
+						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
+						
+						// go to ENTER_CHANNELS
+					case CommandLine::F2_PRESSED :
+					case CommandLine::F4_PRESSED :
+						
+						mode = ENTER_CHANNELS;
+						message = &msg1[0];
+						break;
+						
+					default :
+						// do nothing
+						break;
+				}
 			case EXITING :
 				
 				if( ch == 121 /* Y */ || stat == CommandLine::ENTER_PRESSED ){
@@ -207,7 +228,7 @@ void clearChannels(int chans[]){
 
 
 
-int save_cuelist(const std::unordered_map<int,Group> &list){
+int save_cuelist(const std::unordered_map<int,Group>& list){
 	
 	int size=sizeof(Group);
 	int numberOfGroups=list.size();
@@ -226,7 +247,7 @@ int save_cuelist(const std::unordered_map<int,Group> &list){
 	return 0;
 }
 
-int load_cuelist(std::unordered_map<int,Group> &list) {
+int load_cuelist(std::unordered_map<int,Group>& list) {
 	
 	std::ifstream in("Save", std::ifstream::binary);
 	if (!in.is_open()) return -1; //could not open file
@@ -281,7 +302,15 @@ void saveScene( int name, std::unordered_map<int,Group>& cues, int levels[] ){
 
 
 
-
+void assignCueToFader( int name, std::unordered_map<int,Group>& cues, int whichFader, Group* cueOnFader[] ){
+	std::unordered_map<int,Group>::iterator it = cues.find( name );
+	
+	if( it != cues.end() ){
+		if( cueOnFader[ whichFader ] != nullptr ) cueOnFader[ whichFader ]->set_val(0);
+		
+		cueOnFader[ whichFader ] = &it->second;
+	}
+}
 
 
 
