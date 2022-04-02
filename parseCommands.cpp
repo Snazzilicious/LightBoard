@@ -2,9 +2,10 @@
 #include "parseCommands.h"
 
 
-pair::pair(int c, int l){
-	chan = c;
-	level = l;
+ParsedCMD::ParsedCMD(){
+	status = SUCCESS;
+	
+	errMsg = "Success";
 }
 
 #include<regex>
@@ -16,9 +17,9 @@ std::regex patt_full("([0-9]+[0-9,\-]+)F");
 std::regex patt_single("[0-9]+");
 std::regex patt_range("([0-9]+)-([0-9]+)");
 
-std::vector<pair> getChannelsAndLevels( std::string inp ){
+ParsedCMD getChannelsAndLevels( std::string inp ){
 	std::smatch matches;
-	std::vector<pair> ret;
+	ParsedCMD ret;
 	
 	bool foundMatch = true;
 	while(foundMatch){
@@ -63,15 +64,17 @@ std::vector<pair> getChannelsAndLevels( std::string inp ){
 					int lastChan;
 					std::stringstream(matches[2]) >> lastChan;
 					
-					for( int newChan=firstChan; newChan<=lastChan; newChan++)
-						ret.push_back( pair(newChan, newLevel) );
-						
+					for( int newChan=firstChan; newChan<=lastChan; newChan++){
+						ret.chans.push_back( newChan );
+						ret.levs.push_back( newLevel );
+					}
 
 				} else if (std::regex_search( buf, matches, patt_single )){
 					
 					int newChan;
 					std::stringstream(buf) >> newChan;
-					ret.push_back( pair(newChan, newLevel) );
+					ret.chans.push_back( newChan );
+					ret.levs.push_back( newLevel );
 					
 				}
 				

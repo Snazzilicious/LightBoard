@@ -77,7 +77,7 @@ int main() {
 	CommandLine cmd;
 	
 	// For getting input chans and levels
-	std::vector<pair> c_and_l;
+	ParsedCMD parsed;
 	
 	timeout(100);
 	int ch = 0;
@@ -111,9 +111,9 @@ int main() {
 					case CommandLine::ENTER_PRESSED :
 						
 						// Parse the command and set any channel levels
-						c_and_l = getChannelsAndLevels( cmd.getLastCmd() );
-						for( size_t i=0; i<c_and_l.size(); i++ )
-							chanInp[ c_and_l[i].chan ] = c_and_l[i].level;
+						parsed = getChannelsAndLevels( cmd.getLastCmd() );
+						for( size_t i=0; i<parsed.chans.size(); i++ )
+							chanInp[ parsed.chans[i]-1 ] = parsed.levs[i];
 						
 						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;

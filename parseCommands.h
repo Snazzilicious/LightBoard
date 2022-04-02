@@ -5,15 +5,22 @@
 #include <vector>
 #include <string>
 
-class pair {
+
+class ParsedCMD {
 	public:
-		pair(int c, int l);
+		ParsedCMD();
 		
-		int chan;
-		int level;
+		int status;
+		
+		static const int SUCCESS = 0;
+		
+		std::string errMsg;
+	
+		std::vector<int> chans;
+		std::vector<int> levs;
 };
 
-std::vector<pair> getChannelsAndLevels( std::string inp );
+ParsedCMD getChannelsAndLevels( std::string inp );
 
 
 #endif /* PARSE_COMMANDS */
