@@ -16,7 +16,7 @@ Screen::Screen(int numFaders){
 	noecho();
 	keypad(stdscr,true);
 	
-	mvprintw(0, 0, "%s", "F1: CLEAR INPUT  F2: SAVE AS CUE  F3: EXIT");
+	mvprintw(0, 0, "%s", "F2: CLEAR INPUT  F3: SAVE AS CUE  F4: EXIT");
 	
 	int x,y;
 	//prints channel labels
@@ -103,6 +103,7 @@ void Screen::update(int Percents[], int chanIn[], Group* cuesOnFaders[], int fad
 	y += H_SPAC-2;
 	
 	//prints message
+	move(y, 0);
 	clrtoeol();
 	mvprintw(y, 2, msg);
 	

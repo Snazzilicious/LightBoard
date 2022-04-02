@@ -100,13 +100,13 @@ int CommandLine::keyPressed(int k){
 		case 48:
 			key = '0';
 			break;
-		case KEY_F(1):
-			key = '0';
-			return F1_PRESSED;
 		case KEY_F(2):
 			key = '0';
-			return F2_PRESSED;
+			return F1_PRESSED;
 		case KEY_F(3):
+			key = '0';
+			return F2_PRESSED;
+		case KEY_F(4):
 			key = '0';
 			return F3_PRESSED;
 		case KEY_BACKSPACE:
