@@ -12,8 +12,8 @@ ParsedCMD::ParsedCMD(){
 
 
 
-std::regex patt_at("([0-9]+[0-9,\-]+)A([0-9]{1,3})");
-std::regex patt_full("([0-9]+[0-9,\-]+)F");
+std::regex patt_at("([0-9]+[0-9,\-]*)A([0-9]{1,3})");
+std::regex patt_full("([0-9]+[0-9,\-]*)F");
 std::regex patt_single("[0-9]+");
 std::regex patt_range("([0-9]+)-([0-9]+)");
 
