@@ -93,10 +93,6 @@ int main() {
 	
 	while ( running ){
 		ch = getch();
-		if( ch == 103 ) running = false;
-//		printw("%d",ch);
-//		printw("%c",cmd.keyPressed(ch));
-//		sleep(1);
 		stat = cmd.keyPressed(ch);
 		
 		switch( mode ){
@@ -121,6 +117,7 @@ int main() {
 						break;
 				}
 				break;
+			
 			case LOAD_CUE :
 				switch( stat ){
 					case CommandLine::ENTER_PRESSED :
@@ -143,6 +140,7 @@ int main() {
 						break;
 				}
 				break;
+			
 			case EXITING :
 				
 				if( ch == 121 /* Y */ || stat == CommandLine::ENTER_PRESSED ){
