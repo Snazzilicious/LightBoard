@@ -118,19 +118,19 @@ int main() {
 						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;
 						
-					case CommandLine::F1_PRESSED :
+					case CommandLine::F2_PRESSED :
 						
 						clearChannels( chanInp );
 						sum_percents( chanInp, numFaders, cueOnFader, chanPerc );
 						break;
 						
-					case CommandLine::F2_PRESSED :
+					case CommandLine::F3_PRESSED :
 						
 						mode = SAVE_CUE;
 						message = &prompt4[0];
 						break;
 						
-					case CommandLine::F3_PRESSED :
+					case CommandLine::F4_PRESSED :
 						
 						mode = EXITING;
 						message = &prompt3[0];

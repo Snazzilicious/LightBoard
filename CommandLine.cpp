@@ -102,13 +102,13 @@ int CommandLine::keyPressed(int k){
 			break;
 		case KEY_F(2):
 			key = '0';
-			return F1_PRESSED;
+			return F2_PRESSED;
 		case KEY_F(3):
 			key = '0';
-			return F2_PRESSED;
+			return F3_PRESSED;
 		case KEY_F(4):
 			key = '0';
-			return F3_PRESSED;
+			return F4_PRESSED;
 		case KEY_BACKSPACE:
 			if (cursorPos > 0){
 				cursorPos-- ;

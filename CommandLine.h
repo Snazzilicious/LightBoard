@@ -34,9 +34,9 @@ class CommandLine {
 		static const int NONE=0;
 		static const int ENTER_PRESSED=1;
 		static const int CLEAR_PRESSED=2;
-		static const int F1_PRESSED=3;
-		static const int F2_PRESSED=4;
-		static const int F3_PRESSED=5;
+		static const int F2_PRESSED=3;
+		static const int F3_PRESSED=4;
+		static const int F4_PRESSED=5;
 };
 
 
