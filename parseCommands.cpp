@@ -85,3 +85,14 @@ ParsedCMD getChannelsAndLevels( std::string inp ){
 	
 	return ret;
 }
+
+
+int getSingleInt( std::string inp ){
+	std::smatch m;
+	if (std::regex_search( inp, m, patt_single )){
+		int val;
+		std::stringstream(m[0]) >> val;
+		return val;
+	}
+	return FAILURE;
+}

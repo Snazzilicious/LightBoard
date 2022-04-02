@@ -5,14 +5,14 @@
 #include <vector>
 #include <string>
 
+#define SUCCESS 0
+#define FAILURE -1
 
 class ParsedCMD {
 	public:
 		ParsedCMD();
 		
 		int status;
-		
-		static const int SUCCESS = 0;
 		
 		std::string errMsg;
 	
@@ -22,5 +22,6 @@ class ParsedCMD {
 
 ParsedCMD getChannelsAndLevels( std::string inp );
 
+int getSingleInt( std::string inp );
 
 #endif /* PARSE_COMMANDS */

@@ -97,6 +97,29 @@ int main() {
 		
 		switch( mode ){
 			case SAVE_CUE :
+				switch( stat ){
+					case CommandLine::ENTER_PRESSED :
+						
+						// Get the cue number
+						info = getSingleInt( cmd.getLastCmd() );
+						
+						// go to ENTER_CHANNELS
+					case CommandLine::F2_PRESSED :
+						
+						mode = ENTER_CHANNELS;
+						message = &msg1[0];
+						break;
+						
+					case CommandLine::F4_PRESSED :
+						
+						mode = EXITING;
+						message = &prompt3[0];
+						break;
+						
+					default :
+						// do nothing
+						break;
+				}
 			case LOAD_CUE :
 			case EXITING :
 				
