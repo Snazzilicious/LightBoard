@@ -3,7 +3,7 @@
 #include "MaxChannels.h"
 
 #include "Group.h"
-#include <vector>
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
 
@@ -26,7 +26,6 @@
 #define EXITING 3
 
 
-void sum_percents(int chans[], std::vector<Group> cues, int sum[]);
 void sum_percents(int chans[], int numFaders, Group** cues, int sum[]);
 
 void clearChannels(int chans[]);
@@ -59,7 +58,7 @@ int main() {
 	
 	
 	// Containers for channel percents and scenes and fader assignents
-	std::vector<Group> cues;
+	std::unordered_map<int,Group> cues;
 	Group** cueOnFader = new Group*[numFaders];
 	int* faderPerc = new int[numFaders];
 	for (int i=0; i<numFaders; i++){
@@ -178,23 +177,6 @@ int main() {
 
 
 
-void sum_percents(int chans[], std::vector<Group> cues, int sum[]){
-	
-	for(size_t i=0; i<MAX_CHANNELS; i++){
-		sum[i]=chans[i];
-	}
-	
-	
-	for (size_t i=0; i<cues.size(); i++){
-		for (size_t j=0; j<MAX_CHANNELS; j++){
-			
-			int temp = cues[i].getPercent(j);
-			if (temp>sum[j]) sum[j]=temp;
-		}
-	}
-	
-}
-
 
 void sum_percents(int chans[], int numFaders, Group** cues, int sum[]){
 	for(size_t i=0; i<MAX_CHANNELS; i++)
@@ -221,7 +203,7 @@ void clearChannels(int chans[]){
 
 
 
-int save_cuelist(std::vector<Group> list){
+int save_cuelist(const std::unordered_map<int,Group> &list){
 	
 	int size=sizeof(Group);
 	int numberOfGroups=list.size();
@@ -230,13 +212,11 @@ int save_cuelist(std::vector<Group> list){
 	
 	out.write((char *)&numberOfGroups, sizeof(int));
 	out.write((char *)&size, sizeof(int));
+		
 	
-	
-	for (size_t i=0; i<numberOfGroups; i++){
-		out.write((char *)&list[i], size);
-	}
-	
+	for ( auto it : list ) out.write((char *)&it.second, size);
 
+	
 	out.close();
 	
 	return 0;
@@ -245,7 +225,7 @@ int save_cuelist(std::vector<Group> list){
 
 
 
-int load_cuelist(std::vector<Group> &list) {
+int load_cuelist(std::unordered_map<int,Group> &list) {
 	
 	std::ifstream in("Save", std::ifstream::binary);
 	if (!in.is_open()) return -1; //could not open file
@@ -264,7 +244,7 @@ int load_cuelist(std::vector<Group> &list) {
 	
 	for (size_t i=0; i<numberOfGroups; i++){
 		in.read((char *)&container, size);
-		list.push_back(container);
+		list.insert( std::pair<int,Group>(container.getName(), container) );
 	}
 	
 	
